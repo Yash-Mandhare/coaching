@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>
+        <%=title %>
+    </title>
+
+
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+        integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+
+    <link rel="stylesheet" href="/public/css/style.css">
+
+
+
+
+</head>
+
+<body>
+    <header class="header">
+
+        <section class="flex">
+
+            <a href="/Home" class="logo">Educa.</a>
+
+
+
+            <div class="icons">
+                <div id="menu-btn" class="fas fa-bars"></div>
+                <div id="search-btn" class="fas fa-search"></div>
+                <div id="user-btn" class="fas fa-user"></div>
+                <div id="toggle-btn" class="fas fa-sun"></div>
+            </div>
+
+            <div class="profile">
+                <img src="/uploads/<%= login.profileImage %>" class="image" alt="">
+                <h3 class="name">
+                    <%= login.name %>
+                </h3>
+                <p class="role">
+                    <%= login.role %>
+                </p>
+                <a href="/dashboard/<%= login._id %>" class="btn">view Dashboard</a>
+                <div class="flex-btn">
+                    <a href="/logout" class="option-btn">logout</a>
+                </div>
+            </div>
+
+        </section>
+
+    </header>
+
+    <div class="side-bar">
+
+        <div id="close-btn">
+            <i class="fas fa-times"></i>
+        </div>
+
+        <div class="profile">
+            <img src="/uploads/<%= login.profileImage %>" class="image" alt="">
+            <h3 class="name">
+                <%= login.name %>
+            </h3>
+            <p class="role">
+                <%= login.role %>
+            </p>
+            <a href="/dashboard/<%= login._id %>" class="btn">view Dashboard</a>
+        </div>
+
+        <nav class="navbar">
+            <a href="/Home"><i class="fas fa-home"></i><span>home</span></a>
+            <a href="/About"><i class="fas fa-question"></i><span>about</span></a>
+            <a href="/Courses"><i class="fas fa-graduation-cap"></i><span>courses</span></a>
+            <a href="/Teachers"><i class="fas fa-chalkboard-user"></i><span>teachers</span></a>
+            <a href="/Contact"><i class="fas fa-headset"></i><span>contact us</span></a>
+        </nav>
+
+    </div>
+
+
+
+    <main style="display: flex;align-items:center;flex-direction:column;">
+    <% if(message){ %>
+        <div class="alert <%= message.type%>">
+            <%= message.message %>
+        </div>
+        <% } %>
+    </main>
+            <section class="teacher-profile">
+
+                <h1 class="heading">profile details</h1>
+
+                <div class="details">
+                    <div class="tutor">
+                        <img src="/uploads/<%= user.profileImage %>" alt="">
+                        <h3>
+                            <%= user.name %>
+                        </h3>
+                        <span>
+                            <%= user.role %>
+                        </span>
+                    </div>
+                    <div class="flex">
+                        <!-- Assuming you pass the 'user' object to your EJS template -->
+                        <p>total playlists: <span>
+                                <%= playlistCount%>
+                            </span></p>
+                        <p>total videos: <span>
+                                <%= videoCount%>
+                            </span></p>
+                    </div>
+                </div>
+
+            </section>
+            <section class="courses">
+
+                <h1 class="heading">our courses</h1>
+
+                <div class="box-container">
+                    <% user.playlists.forEach(element => { %>
+                        <div class="box">
+                            <div class="thumb">
+                                <img src="/uploads/thumbnail/<%= element.thumbnail%>" alt="">
+                                <span><%= element.videos.length %> Videos</span>
+                            </div>
+                            <h3 class="title"><%= element.name %></h3>
+                            <a href="/playlist/<%= encodeURIComponent(element._id) %>" class="inline-btn">view playlist</a>
+                        </div>
+                    <% }) %>
+                </div>
+
+                
+                
+                   
+
+                    
+
+            </section>
+
+
+
+
+
+
+            <script src="/public/js/script.js"></script>
+
+
+
+</body>
+
+</html>

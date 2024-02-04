@@ -1,0 +1,101 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@200;300;400;500;600;700&display=swap');
+
+:root{
+   --main-color:#8e44ad;
+   --red:#e74c3c;
+   --orange:#f39c12;
+   --light-color:#888;
+   --light-bg:#eee;
+   --black:#2c3e50;
+   --white:#fff;
+   --border:.1rem solid rgba(0,0,0,.2);
+}
+
+
+.form-container{
+  min-height: calc(100vh - 20rem);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+
+.form-container form{
+  background-color: var(--white);
+  border-radius: .5rem;
+  padding: 2rem;
+  width: 50rem;
+}
+.form-container{
+margin: 100px 0;
+}
+
+.form-container form h3{
+  font-size: 2.4rem;
+  text-transform: capitalize;
+  color: var(--black);
+  text-align: center;
+}
+
+.form-container form p{
+  font-size: 1.6rem;
+  color: var(--light-color);
+  padding-top: 1rem;
+}
+
+.form-container form p span{
+  color: var(--red);
+}
+
+.form-container form .box{
+  font-size: 1.6rem;
+  color: var(--black);
+  border-radius: .5rem;
+  padding: 1.4rem;
+  background-color: var(--light-bg);
+  width: 100%;
+  margin: 1rem 0;
+}
+
+.btn{
+ border-radius: .5rem;
+ color:#fff;
+ font-size: 1.6rem;
+ cursor: pointer;
+ text-transform: capitalize;
+ padding:1rem 3rem;
+ text-align: center;
+ margin-top: 1rem;
+ display: block;
+ width: 100%;
+ background-color: var(--main-color);
+}
+
+.btn:hover{
+ background-color: var(--black);
+ color: var(--white);
+}
+
+.btn:disabled {
+ background-color: lightpurple; /* Set the same color for disabled state */
+ opacity: 0.7; /* Optionally reduce opacity for a visual indication */
+ cursor: not-allowed;
+}
+.btn:disabled:hover{
+ background-color: var(--main-color);
+}
+
+.form-container .forgot{
+ text-decoration: underline;
+ font-size: 16px;
+ margin: 20px 0;
+ text-align: center;
+}
+
+@media (max-width:450px){
+
+  .form-container {
+    min-height: calc(100vh - 20rem);
+    padding: 0 20px;
+  }
+}

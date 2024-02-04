@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>
+        <%=title %>
+    </title>
+
+
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+        integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+
+    <link rel="stylesheet" href="/public/css/style.css">
+
+
+
+
+</head>
+
+<body>
+    <header class="header">
+
+        <section class="flex">
+
+            <a href="/Home" class="logo">Educa.</a>
+
+
+
+            <div class="icons">
+                <div id="menu-btn" class="fas fa-bars"></div>
+                <div id="search-btn" class="fas fa-search"></div>
+                <div id="user-btn" class="fas fa-user"></div>
+                <div id="toggle-btn" class="fas fa-sun"></div>
+            </div>
+
+            <div class="profile">
+                <img src="/uploads/<%= login.profileImage %>" class="image" alt="">
+                <h3 class="name">
+                    <%= login.name %>
+                </h3>
+                <p class="role">
+                    <%= login.role %>
+                </p>
+                <a href="/dashboard/<%= login._id %>" class="btn">view Dashboard</a>
+                <div class="flex-btn">
+                    <a href="/logout" class="option-btn">logout</a>
+                </div>
+            </div>
+
+        </section>
+
+    </header>
+
+    <div class="side-bar">
+
+        <div id="close-btn">
+            <i class="fas fa-times"></i>
+        </div>
+
+        <div class="profile">
+            <img src="/uploads/<%= login.profileImage %>" class="image" alt="">
+            <h3 class="name">
+                <%= login.name %>
+            </h3>
+            <p class="role">
+                <%= login.role %>
+            </p>
+            <a href="/dashboard/<%= login._id %>" class="btn">view Dashboard</a>
+        </div>
+
+        <nav class="navbar">
+            <a href="/Home"><i class="fas fa-home"></i><span>home</span></a>
+            <a href="/About"><i class="fas fa-question"></i><span>about</span></a>
+            <a href="/Courses"><i class="fas fa-graduation-cap"></i><span>courses</span></a>
+            <a href="/Teachers"><i class="fas fa-chalkboard-user"></i><span>teachers</span></a>
+            <a href="/Contact"><i class="fas fa-headset"></i><span>contact us</span></a>
+        </nav>
+
+    </div>
+
+
+
+    <main style="display: flex;align-items:center;flex-direction:column;">
+        <% if(message){ %>
+            <div class="alert <%= message.type%>">
+                <%= message.message %>
+            </div>
+            <% } %>
+    </main>
+    <section class="contact">
+
+        <div class="row">
+     
+           <div class="image">
+              <img src="/public/images/contact-img.svg" alt="">
+           </div>
+     
+           <form onsubmit="sendemail();return false;">
+            <h3>get in touch</h3>
+            <input type="text" placeholder="enter your name" id="name" required maxlength="50" class="box">
+            <input type="email" placeholder="enter your email" id="email" required maxlength="50" class="box">
+            <input type="tel" placeholder="enter your phone number" id="phone" required maxlength="10" class="box">
+            <input type="text" placeholder="enter the subject" id="Subject" required maxlength="100" class="box">
+            <textarea id="msg" class="box" placeholder="enter your message" required maxlength="1000" cols="30" rows="10"></textarea>
+            <input type="submit" value="send message" class="inline-btn" name="submit">
+        </form>
+        
+     
+        </div>
+     
+        <div class="box-container">
+     
+           <div class="box">
+              <i class="fas fa-phone"></i>
+              <h3>phone number</h3>
+              <a href="tel:8275224853">+91 8275224853</a>
+           </div>
+           
+           <div class="box">
+              <i class="fas fa-envelope"></i>
+              <h3>email address</h3>
+              <a href="mailto:yash@sayi.co.in">yash@sayi.co.in</a>
+              <a href="mailto:help@sayi.co.in">help@sayi.co.in</a>
+           </div>
+     
+           <div class="box">
+              <i class="fas fa-map-marker-alt"></i>
+              <h3>office address</h3>
+              <a href="#">flat no. 1, a-1 building, pune, india - 41022</a>
+           </div>
+     
+        </div>
+     
+     </section>
+     
+
+<script>
+    function sendemail() {
+        Email.send({
+          Host: "smtp.elasticemail.com",
+          Username: "yashmandhare2003@gmail.com",
+          Password: "F3FDACCE7273778BBA67F57C13A44C4BA135",
+          To: 'yashmandhare6512@gmail.com',
+          From: "yashmandhare2003@gmail.com",//document.getElementbyid("idname").value
+          Subject: document.getElementById("Subject").value,
+          Body: "Name: " + document.getElementById("name").value +
+                "<br>Email: " + document.getElementById("email").value +
+                "<br>Phone: " + document.getElementById("phone").value +
+                "<br>msg: " + document.getElementById("msg").value
+        }).then(
+          message => alert("Massage has send successfully")
+        );
+      }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+     <script src="https://smtpjs.com/v3/smtp.js"></script>
+
+    <script src="/public/js/script.js"></script>
+
+
+
+</body>
+
+</html>

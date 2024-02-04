@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>
+        <%=title %>
+    </title>
+
+
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+        integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+
+    <link rel="stylesheet" href="/public/css/style.css">
+    <link rel="stylesheet" href="/public/css/Register.css">
+
+
+
+
+</head>
+
+<body>
+    <header class="header">
+
+        <section class="flex">
+
+            <a href="/Home" class="logo">Educa.</a>
+
+
+
+            <div class="icons">
+                <div id="menu-btn" class="fas fa-bars"></div>
+                <div id="search-btn" class="fas fa-search"></div>
+                <div id="user-btn" class="fas fa-user"></div>
+                <div id="toggle-btn" class="fas fa-sun"></div>
+            </div>
+
+            <div class="profile">
+                <img src="/uploads/<%= login.profileImage %>" class="image" alt="">
+                <h3 class="name">
+                    <%= login.name %>
+                </h3>
+                <p class="role">
+                    <%= login.role %>
+                </p>
+                <a href="/dashboard/<%= login._id %>" class="btn">view Dashboard</a>
+                <div class="flex-btn">
+                    <a href="/logout" class="option-btn">logout</a>
+                </div>
+            </div>
+
+        </section>
+
+    </header>
+
+    <div class="side-bar">
+
+        <div id="close-btn">
+            <i class="fas fa-times"></i>
+        </div>
+
+        <div class="profile">
+            <img src="/uploads/<%= login.profileImage %>" class="image" alt="">
+            <h3 class="name">
+                <%= login.name %>
+            </h3>
+            <p class="role">
+                <%= login.role %>
+            </p>
+            <a href="/dashboard/<%= login._id %>" class="btn">view Dashboard</a>
+        </div>
+
+        <nav class="navbar">
+            <a href="/Home"><i class="fas fa-home"></i><span>Home</span></a>
+            <a href="/About"><i class="fas fa-question"></i><span>about</span></a>
+            <a href="/courses"><i class="fas fa-graduation-cap"></i><span>courses</span></a>
+            <a href="/Teachers"><i class="fas fa-chalkboard-user"></i><span>teachers</span></a>
+            <a href="/Contact"><i class="fas fa-headset"></i><span>contact us</span></a>
+        </nav>
+
+    </div>
+
+
+
+    <main style="display: flex;align-items:center;flex-direction:column;">
+        <% if(message){ %>
+            <div class="alert <%= message.type%>">
+                <%= message.message %>
+            </div>
+            <% } %>
+                <section class="form-container" style="flex-direction: column;">
+
+                    <form id="Addvideoform" enctype="multipart/form-data" action="/addvideo" method="POST">
+                        <h3>Add video to Playlist</h3>
+                        <p>Your Video Title <span>*</span></p>
+                        <input type="text" name="title" placeholder="Enter Your Video Title" required maxlength="50" class="box">
+
+                        <p>Your Video Description<span>*</span></p>
+                        <textarea type="text" class="box" id="msg" name="description" placeholder="Enter Your Video Description" required maxlength="1000" cols="30" rows="10"></textarea>
+
+                    
+                        <p>Your Playlist <span>*</span></p>
+                        <select name="playlists" id="pet-select" class="box">
+                            <option value="">--Please choose an option--</option>
+                            <% if (login.playlists && login.playlists.length > 0) { %>
+                                <% login.playlists.forEach(function(playListItem) { %>
+                                    <option value="<%= playListItem._id %>"><%= playListItem.name %></option>
+                                <% }); %>
+                            <% } %>
+                        </select>
+
+                    
+                        <p>Select video <span>*</span></p>
+                        <input type="file" name="video" accept="video/*" required class="box">
+                    
+                        <input type="submit" value="Add a video" name="submit" class="btn">
+                    </form>
+                    
+                    
+
+
+
+                </section>
+
+    </main>
+
+    <script src="/public/js/script.js"></script>
+
+
+
+</body>
+
+</html>

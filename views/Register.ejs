@@ -1,0 +1,146 @@
+<!-- Register.html -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Register</title>
+  <link rel="stylesheet" href="/public/css/style.css">
+  <link rel="stylesheet" href="/public/css/Register.css">
+  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+  <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
+  <script src="/public/js/register.js"></script>
+</head>
+
+<body>
+  <section class="form-container" style="flex-direction: column;">
+    <div class="forgot"><a href="/login" >Already have account</a></div>
+    
+    <form id="registrationForm" enctype="multipart/form-data" action="/register" method="POST">
+      <h3>Register Now</h3>
+      <p>Your Name <span>*</span></p>
+      <input type="text" name="name" placeholder="Enter your name" required maxlength="50" class="box">
+      <p>Your Email <span>*</span></p>
+      <input type="email" name="email" id="email" placeholder="Enter your email" required maxlength="50" class="box">
+      <span id="emailError" style="color: red;"></span>
+      <p>Your Role <span>*</span></p>
+      <select name="role" id="pet-select" class="box">
+        <option value="">--Please choose an option--</option>
+        <option value="Student">Student</option>
+      </select>
+      <p>Your Phone <span>*</span></p>
+        <input type="tel" name="phone" placeholder="Enter your phone" required maxlength="10" class="box">
+      <p>Your Password <span>*</span></p>
+      <input type="password" name="password" id="password" placeholder="Enter your password" required maxlength="20"
+        class="box">
+      <p>Confirm Password <span>*</span></p>
+      <input type="password" name="c_pass" id="c_pass" placeholder="Confirm your password" required maxlength="20"
+        class="box">
+      <span id="passError" style="color: red;"></span>
+      <p>Select Profile <span>*</span></p>
+      <input type="file" name="profileImage" accept="image/*" required class="box">
+
+      <p>Enter Verification Code <span>*</span></p>
+      <input type="text" name="verificationCode" id="verificationCode" placeholder="Enter verification code" required
+        maxlength="6" class="box">
+      <span id="verificationCodeError" style="color: red;"></span>
+
+      <!-- Button to send verification email -->
+      <button type="button" onclick="sendVerificationCode()" class="btn">Send Verification Code</button>
+
+      <input type="submit" value="Register Now" name="submit" class="btn" disabled>
+    </form>
+
+    
+  </section>
+  <script>
+    // Declare generatedCode in a scope accessible to both functions
+    var generatedCode;
+  
+    function sendVerificationCode() {
+
+      // Get the verification code directly
+      generatedCode = verificationCode();
+  
+      // Use the obtained verification code in the email body
+      Email.send({
+        Host: "smtp.elasticemail.com",
+        Username: "yashmandhare2003@gmail.com",
+        Password: "F3FDACCE7273778BBA67F57C13A44C4BA135",
+        To: document.getElementById("email").value,
+        From: "yashmandhare2003@gmail.com",
+        Subject: "Verification code for registration",
+        // Use the obtained code in the email body
+        Body: `Your verification code is: ${generatedCode}`,
+      }).then(
+        message => alert("Verification code has been sent to you. Check your Gmail inbox.")
+      );
+    }
+  
+    // Assuming you have the verificationCode function defined
+    function verificationCode() {
+      // Replace this with your logic to generate a random verification code
+      return Math.floor(100000 + Math.random() * 900000).toString();
+    }
+  
+    var submitButton = document.getElementById("registrationForm").querySelector('input[type="submit"]');
+  
+    // Assuming you have the verificationCode function defined
+    document.getElementById("verificationCode").addEventListener("input", function () {
+      // Get the entered verification code
+      var enteredCode = this.value;
+  
+      // Compare the entered code with the generated code
+      if (enteredCode === generatedCode) {
+        // Codes match, enable the submit button
+        document.getElementById("verificationCodeError").innerText = "";
+        submitButton.disabled = false;
+      } else {
+        // Codes do not match, disable the submit button
+        document.getElementById("verificationCodeError").innerText = "Incorrect verification code. Please try again.";
+        submitButton.disabled = true;
+      }
+    });
+  </script>
+  <script src="https://smtpjs.com/v3/smtp.js">
+  </script>
+
+  <script>
+    document.getElementById("email").addEventListener("input", function () {
+        const emailInput = this.value;
+        if (emailInput.trim() !== "") {
+          checkEmailAvailability(emailInput);
+        }
+      });
+      
+      function checkEmailAvailability(email) {
+        fetch("/checkEmail", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ email: email }),
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            if (data.exists) {
+              document.getElementById("emailError").innerText ="Email is already registered.";
+            } else {
+              document.getElementById("emailError").innerText = "";
+            }
+          })
+          .catch((error) => {
+            console.error("Error checking email availability:", error);
+          });
+      }
+      
+  </script>
+  
+  
+
+
+
+</body>
+
+</html>

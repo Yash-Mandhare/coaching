@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>
+        <%=title %>
+    </title>
+
+
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+        integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/dataTables.bootstrap5.min.css">
+
+
+    <link rel="stylesheet" href="/public/css/style.css">
+    <link rel="stylesheet" href="/public/css/Admin.css">
+
+
+
+</head>
+
+<body>
+    <header class="header">
+
+        <section class="flex">
+
+            <a href="/Home" class="logo">Educa.</a>
+
+
+
+            <div class="icons">
+                <div id="menu-btn" class="fas fa-bars"></div>
+                <div id="search-btn" class="fas fa-search"></div>
+                <div id="user-btn" class="fas fa-user"></div>
+                <div id="toggle-btn" class="fas fa-sun"></div>
+            </div>
+
+            <div class="profile">
+                <img src="/uploads/<%= login.profileImage %>" class="image" alt="">
+                <h3 class="name">
+                    <%= login.name %>
+                </h3>
+                <p class="role">
+                    <%= login.role %>
+                </p>
+                <div class="flex-btn">
+                    <a href="/logout" class="option-btn">logout</a>
+                </div>
+            </div>
+
+        </section>
+
+    </header>
+
+    <div class="side-bar">
+
+        <div id="close-btn">
+            <i class="fas fa-times"></i>
+        </div>
+
+        <div class="profile">
+            <img src="/uploads/<%= login.profileImage %>" class="image" alt="">
+            <h3 class="name">
+                <%= login.name %>
+            </h3>
+            <p class="role">
+                <%= login.role %>
+            </p>
+
+        </div>
+
+        <nav class="navbar">
+            <a href="/Home"><i class="fas fa-home"></i><span>home</span></a>
+            <a href="/About"><i class="fas fa-question"></i><span>about</span></a>
+            <a href="/Courses"><i class="fas fa-graduation-cap"></i><span>courses</span></a>
+            <a href="/Teachers"><i class="fas fa-chalkboard-user"></i><span>teachers</span></a>
+            <a href="/Contact"><i class="fas fa-headset"></i><span>contact us</span></a>
+        </nav>
+
+    </div>
+
+
+
+    <main style="display: flex;align-items:center;flex-direction:column;">
+        <% if(message){ %>
+            <div class="alert <%= message.type%>">
+                <%= message.message %>
+            </div>
+            <% } %>
+    </main>
+
+    <section id="tab_section">
+        <div class="tab_btn main-tab-btn active" onclick="showSection('main-tab')">Main</div>
+        <div class="tab_btn Playlist-tab-btn" onclick="showSection('Playlist-tab')">Playlist</div>
+        <div class="tab_btn video-tab-btn" onclick="showSection('video-tab')">Videos</div>
+    </section>
+    <!-- main section -->
+    <section class="main-tab tabsection">
+        <section class="teacher-profile">
+
+            <h1 class="heading">profile details</h1>
+
+            <div class="details">
+                <div class="tutor">
+                    <img src="/uploads/<%= login.profileImage %>" alt="">
+                    <h3>
+                        <%= login.name %>
+                    </h3>
+                    <span>
+                        <%= login.role %>
+                    </span>
+                </div>
+                <a href="/edit/<%= login._id %>" class="inline-btn">update profile</a>
+                <div class="flex">
+                    <!-- Assuming you pass the 'user' object to your EJS template -->
+                    <p>total playlists: <span>
+                            <%= playlistCount%>
+                        </span></p>
+                    <p>total videos: <span>
+                            <%= videoCount%>
+                        </span></p>
+
+                    <p><a href="/Createplaylist" style="color: var(--light-color);">Create playlist :
+                            <span><b>+</b></span></a></p>
+                    <p><a href="/Addvideo" style="color: var(--light-color);">Add video : <span><b>+</b></span></a></p>
+                </div>
+            </div>
+
+        </section>
+        <section class="courses">
+
+            <h1 class="heading">our courses</h1>
+
+            <div class="box-container">
+                <% loginId.playlists.forEach(element=> { %>
+                    <div class="box">
+                        <div class="thumb">
+                            <img src="/uploads/thumbnail/<%= element.thumbnail%>" alt="">
+                            <span>
+                                <%= element.videos.length %> Videos
+                            </span>
+                        </div>
+                        <h3 class="title">
+                            <%= element.name %>
+                        </h3>
+                        <a href="/playlist/<%= encodeURIComponent(element._id) %>" class="inline-btn">view playlist</a>
+                    </div>
+                    <% }) %>
+            </div>
+
+        </section>
+
+    </section>
+
+    <!-- Playlist section -->
+    <section class="Playlist-tab hidden tabsection">
+        <h1 class="heading">Your Playlists</h1>
+        <div class="container">
+            <% if (user && user.playlists && user.playlists.length> 0) { %>
+                <table id="Playlisttable" class="table-teacher">
+                    <thead>
+                        <tr class="table-dark">
+                            <th>ID</th>
+                            <th>Thumbnail</th>
+                            <th>Playlist Name</th>
+                            <th>Total Videos</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% user.playlists.forEach((playlist, index)=> { %>
+                            <tr>
+                                <td>
+                                    <%= index + 1 %>
+                                </td>
+                                <td><img src="/uploads/thumbnail/<%= playlist.thumbnail %>" width="50" alt="Thumbnail">
+                                </td>
+                                <td>
+                                    <%= playlist.name %>
+                                </td>
+                                <td>
+                                    <%= playlist.videos.length %>
+                                </td>
+                                <td>
+                                    <a href="/edit/<%= user._id %>/<%= index %>" class="text-success">
+                                        <i class="fa-solid fa-pen-to-square" style="color: #50b300;"></i>
+                                    </a>
+                                    <a href="#" data-id="<%= user._id %>" playlistindex=" <%= index %>" class="text-danger Playlist-delete-button">
+                                        <i class="fa-solid fa-trash" style="color: #ff0000;"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <% }) %>
+                    </tbody>
+                </table>
+                <% } else { %>
+                    <h1>No playlists found for this user</h1>
+                    <% } %>
+        </div>
+        <div id="playlist-confirmation-modal" class="modal">
+            <div class="modal-content">
+                <p>Are you sure you want to delete this Playlist?</p>
+                <button id="Playlist-confirm-yes" class="delete-btn">Yes</button>
+                <button id="Playlist-confirm-no" class="option-btn">No</button>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- Video section -->
+    <section class="video-tab hidden tabsection">
+        <h1 class="heading">Your Videos</h1>
+        <div class="container">
+            <% if (user && user.playlists && user.playlists.length> 0) { %>
+                <table id="Videotable" class="table-teacher">
+                    <thead>
+                        <tr class="table-dark">
+                            <th>ID</th>
+                            <th>Playlist Thumbnail</th>
+                            <th>Video name</th>
+                            <th>Playlist Name</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% user.playlists.forEach((playlist, playlistIndex)=> { %>
+                            <% playlist.videos.forEach((video, videoIndex)=> { %>
+                                <tr>
+                                    <td>
+                                        <%= videoIndex+1 %>
+                                    </td>
+                                    <td><img src="/uploads/thumbnail/<%= playlist.thumbnail %>" width="50"
+                                            alt="Thumbnail"></td>
+                                    <td>
+                                        <%= video.title %>
+                                    </td>
+                                    <td>
+                                        <%= playlist.name %>
+                                    </td>
+                                    <td>
+                                        <a href="/edit_video/<%= user._id %>/<%= playlistIndex %>/<%= videoIndex %>"
+                                            class="text-success">
+                                            <i class="fa-solid fa-pen-to-square" style="color: #50b300;"></i>
+                                        </a>
+                                        <a href="#" data-user-id="<%= user._id.toString() %>" data-playlist-index="<%= playlistIndex %>"  data-video-index="<%= videoIndex %>" class="text-danger delete-video-button">
+                                            <i class="fa-solid fa-trash" style="color: #ff0000;"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                                <% }) %>
+                                    <% }) %>
+                    </tbody>
+                </table>
+                <% } else { %>
+                    <h1>No Video found for this user</h1>
+                    <% } %>
+        </div>
+        <div id="video-confirmation-modal" class="modal">
+            <div class="modal-content">
+                <p>Are you sure you want to delete this Video?</p>
+                <button id="video-confirm-yes" class="delete-btn">Yes</button>
+                <button id="video-confirm-no" class="option-btn">No</button>
+            </div>
+        </div>
+    </section>
+
+
+
+
+
+
+
+    <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+    <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.7/js/dataTables.bootstrap5.min.js"></script>
+    <script src="/public/js/script.js"></script>
+    <script>
+        new DataTable('#Playlisttable');
+    </script>
+    <script>
+        new DataTable('#Videotable');
+    </script>
+
+
+    <script src="/public/js/delete.js">
+        
+    </script>
+    <script>
+        let activeSection = 'main-tab';
+
+        function showSection(sectionId) {
+            // Hide the currently active section
+            document.querySelector('.' + activeSection).classList.add('hidden');
+            document.querySelector('.' + activeSection + '-btn').classList.remove('active'); // Add this line
+
+            // Show the selected section
+            document.querySelector('.' + sectionId).classList.remove('hidden');
+            document.querySelector('.' + sectionId + '-btn').classList.add('active'); // Add this line
+
+            // Update the active section
+            activeSection = sectionId;
+        }
+    </script>
+
+
+
+</body>
+
+</html>

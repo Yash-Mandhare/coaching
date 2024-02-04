@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>
+        <%=title %>
+    </title>
+
+
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+        integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Icons" rel="stylesheet" />
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
+
+
+    <link rel="stylesheet" href="/public/css/video.css">
+    <link rel="stylesheet" href="/public/css/style.css">
+
+
+
+
+</head>
+
+<body>
+    <header class="header">
+
+        <section class="flex">
+
+            <a href="/Home" class="logo">Educa.</a>
+
+
+
+            <div class="icons">
+                <div id="menu-btn" class="fas fa-bars"></div>
+                <div id="search-btn" class="fas fa-search"></div>
+                <div id="user-btn" class="fas fa-user"></div>
+                <div id="toggle-btn" class="fas fa-sun"></div>
+            </div>
+
+            <div class="profile">
+                <img src="/uploads/<%= login.profileImage %>" class="image" alt="">
+                <h3 class="name">
+                    <%= login.name %>
+                </h3>
+                <p class="role">
+                    <%= login.role %>
+                </p>
+                <a href="/dashboard/<%= login._id %>" class="btn">view Dashboard</a>
+                <div class="flex-btn">
+                    <a href="/logout" class="option-btn">logout</a>
+                </div>
+            </div>
+
+        </section>
+
+    </header>
+
+    <div class="side-bar">
+
+        <div id="close-btn">
+            <i class="fas fa-times"></i>
+        </div>
+
+        <div class="profile">
+            <img src="/uploads/<%= login.profileImage %>" class="image" alt="">
+            <h3 class="name">
+                <%= login.name %>
+            </h3>
+            <p class="role">
+                <%= login.role %>
+            </p>
+            <a href="/dashboard/<%= login._id %>" class="btn">view Dashboard</a>
+        </div>
+
+        <nav class="navbar">
+            <a href="/Home"><i class="fas fa-home"></i><span>home</span></a>
+            <a href="/About"><i class="fas fa-question"></i><span>about</span></a>
+            <a href="/courses"><i class="fas fa-graduation-cap"></i><span>courses</span></a>
+            <a href="/Teachers"><i class="fas fa-chalkboard-user"></i><span>teachers</span></a>
+            <a href="/Contact"><i class="fas fa-headset"></i><span>contact us</span></a>
+        </nav>
+
+    </div>
+
+
+
+    <main style="display: flex;align-items:center;flex-direction:column;">
+        <% if(message){ %>
+            <div class="alert <%= message.type%>">
+                <%= message.message %>
+            </div>
+            <% } %>
+    </main>
+    <div class="playlist-watch">
+        <div class="playlist video" data-playlist-id="<%= playlist[0]._id %> " style="margin-top: 1.8rem;">
+            <% playlist.forEach((element, playlistIndex)=> { %>
+                <h1 class="heading">
+                    <%= element.name %>
+                </h1>
+                <% element.videos.forEach((video, videoIndex)=> { %>
+                    <div class="videosname">
+                        <a href="#" onclick="playVideoFromLink(this)" class="video-link" data-url="<%= video.url %>"
+                            data-title="<%= video.title %>" data-description="<%= video.description %>"
+                            data-playlist-id="<%= playlist[0]._id %>" data-video-index="<%= videoIndex %>">
+                            <%= video.title %>
+                        </a>
+
+
+                    </div>
+                    <% }) %>
+                        <% }) %>
+        </div>
+
+        <section class="watch-video">
+            <div class="video-container">
+                <div class="video">
+                    <div class="container">
+                        <div class="video_player">
+                            <video src="" preload="auto" class="main-video"
+                                poster="/uploads/thumbnail/<%= playlist[0].thumbnail %>" id="video">
+                            </video>
+                        </div>
+                    </div>
+
+                </div>
+
+                <h3 class="title"></h3>
+                <div class="video-controls">
+                </div>
+                <div class="tutor">
+                    <img src="/uploads/<%= user.profileImage %>" alt="">
+                    <div>
+                        <h3>
+                            <%= user.name %>
+                        </h3>
+                        <span>
+                            <%= user.role %>
+                        </span>
+                    </div>
+                </div>
+                <form action="" method="post" class="flex"></form>
+                <p class="description" id="videoDescription">
+                    <!-- Dynamic description will be inserted here -->
+                </p>
+            </div>
+        </section>
+    </div>
+
+    <script src="/public/js/playlist.js"></script>
+
+
+    <script src="/public/js/video.js"></script>
+
+    <script src="/public/js/script.js"></script>
+
+
+
+</body>
+
+</html>

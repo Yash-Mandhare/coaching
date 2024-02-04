@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/public/css/style.css">
+    <link rel="stylesheet" href="/public/css/Register.css">
+</head>
+<body>
+    <section class="form-container" style="flex-direction: column;">
+        <% if(message){ %>
+            <div class="alert <%= message.type%>">
+                <%= message.message %>
+            </div>
+            <% } %>
+            <div class="forgot"><a href="/register">Create a new Account</a></div>
+        <form action="/login" method="post">
+           <h3>login now</h3>
+           <p>your email <span>*</span></p>
+           <input type="email" name="email" placeholder="enter your email" required maxlength="50" class="box">
+           <p>your password <span>*</span></p>
+           <input type="password" name="password" placeholder="enter your password" required maxlength="20" class="box">
+           <input type="submit" value="login new" name="submit" class="btn">
+        </form>
+
+        <div class="forgot"><a href="/Resetpassword" >Forgot password.</a></div>
+        
+     </section>
+     
+     
+</body>
+</html>
